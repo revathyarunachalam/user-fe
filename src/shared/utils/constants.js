@@ -39,7 +39,12 @@ const MENUITEMS = [
 
 const DRAWERWIDTH = 240;
 
+const APIENDPOINT = 'https://rp6cgg2tec.execute-api.ap-south-1.amazonaws.com/dev';
+const USERID = '6bb7a6e0-94db-11ed-a25d-0d7a282dfd77';
+
 export {
     MENUITEMS,
-    DRAWERWIDTH
+    DRAWERWIDTH,
+    APIENDPOINT,
+    USERID
 }

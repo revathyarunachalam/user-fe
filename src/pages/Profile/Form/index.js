@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { TextField } from '../../../shared/components/Textfield';
 import {
@@ -8,7 +8,22 @@ import {
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 
-const Form = () => {
+import {
+  createTheme,
+  ThemeProvider,
+} from '@mui/material/styles';
+
+const { palette } = createTheme();
+const { augmentColor } = palette;
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
+const theme = createTheme({
+  palette: {
+    red: createColor('#F40B27'),
+  },
+});
+
+
+const Form = ({ user, onSubmit }) => {
   const [success, setSuccess] = useState(false);
   const {
     register,
@@ -17,18 +32,18 @@ const Form = () => {
     formState: { errors },
   } = useForm();
 
-  const resetFormChanges = () => reset({
-    firstname: '',
-    lastname: '',
-    displayname: '',
-    email: '',
-    phonenumber_primary: '',
-    phonenumber_sec: '',
-    location: ''
-  })
+  const resetFormChanges = () => reset(user)
 
-  console.log(errors);
+  useEffect(() => {
+    resetFormChanges();
+  }, [user]);
+
+  console.log(user, errors);
+
   return (
+    <>
+    <ThemeProvider theme={theme}>
+    <h2>My Profile</h2>
     <StyledForm data-testid="request-form">
       {!(_.isEmpty(errors)) && !success 
         && <Alert severity="error">This is an error alert — check it out!</Alert>}
@@ -44,6 +59,7 @@ const Form = () => {
           <form
             onSubmit={handleSubmit(async (data) => {
               console.log(data);
+              onSubmit(data);
               setSuccess(true);
             })}
           >
@@ -103,7 +119,7 @@ const Form = () => {
                 error={errors.email}
                 type="string" />
               <TextField
-                name="phonenumber_primary"
+                name="phonenumber"
                 register={register}
                 required="Phone number is required"
                 maxLength={15}
@@ -113,10 +129,10 @@ const Form = () => {
                   message: 'Invalid phone number'
                 }}
                 label="Phone No(work)"
-                error={errors.phonenumber_primary}
+                error={errors.phonenumber}
                 type="Bigint" />
               <TextField
-                name="phonenumber_sec"
+                name="phonenumber_secondary"
                 register={register}
                 // required="Phone number is required"
                 maxLength={15}
@@ -126,7 +142,7 @@ const Form = () => {
                   message: 'Invalid phone number'
                 }}
                 label="Phone No(work)"
-                error={errors.phonenumber_sec}
+                error={errors.phonenumber_secondary}
                 type="Bigint" />
               
               <TextField
@@ -144,11 +160,15 @@ const Form = () => {
                 type="string" />
               
             </div>
-            <Button variant="outlined" onClick={resetFormChanges}>Reset</Button>
-            <Button type='submit' variant="contained" >Submit</Button>
+            <div className='form-buttons'>
+              <Button color="red" type='submit' variant="contained" >Submit</Button>
+              <Button color="red" variant="outlined" onClick={resetFormChanges}>Reset</Button>
+            </div>
           </form>
         )}
     </StyledForm>
+    </ThemeProvider>
+    </>
   );
 };
 

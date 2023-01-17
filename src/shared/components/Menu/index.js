@@ -65,19 +65,28 @@ export default function ResponsiveDrawer(props) {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWERWIDTH },
+            '& .MuiDrawer-paper': {  width: DRAWERWIDTH, background: 'white', borderRight: 'none' },
           }}
           open
         >
-            <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <div 
+              style = {{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '10px'
+              }}
+            >
+            <a href="/" className="header-logo"><img width="150px" src='kyro-logo.png' alt='logo' /></a>
+              <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon fontSize='large' />
+            </IconButton>
+          </div>
           {drawer}
         </Drawer>
       </Box>

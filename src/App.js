@@ -6,10 +6,10 @@ import Profile from './pages/Profile';
 const App = () => {
   return (
     <div className="App">
-      <Box sx={{ display: 'flex' }}>
-      <Menu />
-      <Profile />
-    </Box>
+      <Box sx={{ display: 'flex', height: '100%' }}>
+        <Menu />
+        <Profile />
+      </Box>
 
     </div>
   );
